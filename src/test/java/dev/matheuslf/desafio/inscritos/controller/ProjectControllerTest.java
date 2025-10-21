@@ -27,7 +27,7 @@ class ProjectControllerTest {
     @Autowired
     MockMvc mvc;
 
-    @SuppressWarnings("removal")
+	@SuppressWarnings("removal")
 	@MockBean
     ProjectService projectService;
 
