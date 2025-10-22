@@ -12,7 +12,7 @@ RESTful API em **Java 17 + Spring Boot 3** para gerenciar projetos e tarefas (de
 - Atualização de status da tarefa (**TODO / DOING / DONE**)
 - Validação de campos com **Bean Validation**
 - Tratamento global de erros com `@ControllerAdvice`
-- Testes automatizados unitários e de integração
+- Testes automatizados unitários e de integração com **Rest Assured**
 - Documentação da API com **Swagger/OpenAPI**
 - Containerização com **Docker / docker-compose**
 - MapStruct para mapeamento entre DTOs e Entities, garantindo código limpo e testável
@@ -29,6 +29,7 @@ RESTful API em **Java 17 + Spring Boot 3** para gerenciar projetos e tarefas (de
 - **Docker / docker-compose**
 - **Springdoc OpenAPI (Swagger UI)**
 - **MapStruct** (DTO <-> Entity mapping)
+- **Rest Assured** (Integration testing of REST endpoints)
 
 ---
 
@@ -129,7 +130,7 @@ Testes individuais (exemplo: TaskServiceTest):
 ```bash
 ./mvnw -Dtest=TaskServiceTest test
 ```
-Testes incluem validação de mapeamentos do MapStruct entre DTOs e Entities.
+Testes incluem validação de mapeamentos do MapStruct entre DTOs e Entities, além de testes de integração de endpoints com Rest Assured.
 
 ---
 
