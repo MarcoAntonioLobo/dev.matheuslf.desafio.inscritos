@@ -1,7 +1,6 @@
-
 ## **🧠 Desafio Técnico – Sistema de Gestão de Projetos e Demandas**
 
-RESTful API em **Java 17 + Spring Boot 3** para gerenciar projetos e tarefas (demandas) de uma empresa.
+RESTful API em **Java 17 + Spring Boot 3** para gerenciar projetos e tarefas (demandas) de uma empresa, com **autenticação Basic Auth**.
 
 ---
 
@@ -12,6 +11,7 @@ RESTful API em **Java 17 + Spring Boot 3** para gerenciar projetos e tarefas (de
 - Atualização de status da tarefa (**TODO / DOING / DONE**)
 - Validação de campos com **Bean Validation**
 - Tratamento global de erros com `@ControllerAdvice`
+- **Autenticação simples com Basic Auth** para todos os endpoints
 - Testes automatizados unitários e de integração com **Rest Assured**
 - Documentação da API com **Swagger/OpenAPI**
 - Containerização com **Docker / docker-compose**
@@ -30,6 +30,7 @@ RESTful API em **Java 17 + Spring Boot 3** para gerenciar projetos e tarefas (de
 - **Springdoc OpenAPI (Swagger UI)**
 - **MapStruct** (DTO <-> Entity mapping)
 - **Rest Assured** (Integration testing of REST endpoints)
+- **Spring Security** (Basic Auth)
 
 ---
 
@@ -69,7 +70,12 @@ cd dev.matheuslf.desafio.inscritos
 
 A API estará disponível em: [http://localhost:8080](http://localhost:8080)
 
-4️⃣ Acesse a documentação Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+> 🔐 **Todos os endpoints estão protegidos com Basic Auth**  
+> Usuário: `admin`  
+> Senha: `123`
+
+4️⃣ Acesse a documentação Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)  
+> Observação: o Swagger também está protegido, será necessário autenticar.
 
 ---
 
@@ -89,6 +95,8 @@ docker-compose up --build
 
 A API será inicializada automaticamente e conectada ao PostgreSQL do docker-compose. Logs aparecem no terminal.
 
+> 🔐 **Todos os endpoints requerem Basic Auth** (usuário `admin`, senha `123`).
+
 ---
 
 ## 3️⃣ Endpoints de exemplo
@@ -96,7 +104,7 @@ A API será inicializada automaticamente e conectada ao PostgreSQL do docker-com
 **Criar projeto:**
 
 ```bash
-curl -X POST http://localhost:8080/projects \
+curl -u admin:123 -X POST http://localhost:8080/projects \
 -H "Content-Type: application/json" \
 -d '{"name":"API Teste","description":"Projeto API","startDate":"2025-10-19"}'
 ```
@@ -104,13 +112,13 @@ curl -X POST http://localhost:8080/projects \
 **Listar projetos:**
 
 ```bash
-curl -X GET http://localhost:8080/projects
+curl -u admin:123 -X GET http://localhost:8080/projects
 ```
 
 **Criar tarefa vinculada a projeto:**
 
 ```bash
-curl -X POST http://localhost:8080/tasks \
+curl -u admin:123 -X POST http://localhost:8080/tasks \
 -H "Content-Type: application/json" \
 -d '{"title":"Fazer endpoint","description":"Implementar API REST","priority":"HIGH","dueDate":"2025-10-25","projectId":"<UUID_DO_PROJETO>"}'
 ```
@@ -130,22 +138,25 @@ Testes individuais (exemplo: TaskServiceTest):
 ```bash
 ./mvnw -Dtest=TaskServiceTest test
 ```
+
+> 🔐 **Nos testes de integração, Basic Auth é incluído nas requisições** (`httpBasic()` para MockMvc e `.auth().basic()` para Rest Assured).  
 Testes incluem validação de mapeamentos do MapStruct entre DTOs e Entities, além de testes de integração de endpoints com Rest Assured.
 
 ---
 
 ## ⚙️ Configurações
 
-- Logs SQL podem ser habilitados em `application.yml` (já mostrado acima).
-- Para usar PostgreSQL local sem Docker, configure `spring.datasource.*` no `application.yml`.
-- MapStruct já está configurado como componentModel = "spring" permitindo injeção de dependência direta nos serviços.
+- Logs SQL podem ser habilitados em `application.yml` (já mostrado acima).  
+- Para usar PostgreSQL local sem Docker, configure `spring.datasource.*` no `application.yml`.  
+- MapStruct já está configurado como componentModel = "spring" permitindo injeção de dependência direta nos serviços.  
+- Spring Security já está configurado para **Basic Auth** nos endpoints.
 
 ---
 
 ## 📌 Observações
 
-- Projeto iniciado a partir do fork do repositório [https://github.com/matheuslf/dev.matheuslf.desafio.inscritos](https://github.com/matheuslf/dev.matheuslf.desafio.inscritos)
-- Desenvolvido como parte do desafio técnico do processo seletivo SIS Innov & Tech
+- Projeto iniciado a partir do fork do repositório [https://github.com/matheuslf/dev.matheuslf.desafio.inscritos](https://github.com/matheuslf.dev.matheuslf.desafio.inscritos)  
+- Desenvolvido como parte do desafio técnico do processo seletivo SIS Innov & Tech  
 - Licença: uso exclusivo para processos seletivos, não comercial
 
 ---
