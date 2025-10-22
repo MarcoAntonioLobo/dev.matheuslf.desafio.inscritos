@@ -15,6 +15,7 @@ RESTful API em **Java 17 + Spring Boot 3** para gerenciar projetos e tarefas (de
 - Testes automatizados unitários e de integração
 - Documentação da API com **Swagger/OpenAPI**
 - Containerização com **Docker / docker-compose**
+- MapStruct para mapeamento entre DTOs e Entities, garantindo código limpo e testável
 
 ---
 
@@ -27,6 +28,7 @@ RESTful API em **Java 17 + Spring Boot 3** para gerenciar projetos e tarefas (de
 - **Maven**
 - **Docker / docker-compose**
 - **Springdoc OpenAPI (Swagger UI)**
+- **MapStruct** (DTO <-> Entity mapping)
 
 ---
 
@@ -127,6 +129,7 @@ Testes individuais (exemplo: TaskServiceTest):
 ```bash
 ./mvnw -Dtest=TaskServiceTest test
 ```
+Testes incluem validação de mapeamentos do MapStruct entre DTOs e Entities.
 
 ---
 
@@ -134,6 +137,7 @@ Testes individuais (exemplo: TaskServiceTest):
 
 - Logs SQL podem ser habilitados em `application.yml` (já mostrado acima).
 - Para usar PostgreSQL local sem Docker, configure `spring.datasource.*` no `application.yml`.
+- MapStruct já está configurado como componentModel = "spring" permitindo injeção de dependência direta nos serviços.
 
 ---
 
