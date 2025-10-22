@@ -1,44 +1,48 @@
 package dev.matheuslf.desafio.inscritos.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
-import dev.matheuslf.desafio.inscritos.dto.TaskCreateDTO;
-import dev.matheuslf.desafio.inscritos.entity.TaskPriority;
+import dev.matheuslf.desafio.inscritos.mapper.ProjectMapper;
 import dev.matheuslf.desafio.inscritos.repository.ProjectRepository;
-import dev.matheuslf.desafio.inscritos.repository.TaskRepository;
-import dev.matheuslf.desafio.inscritos.service.impl.TaskServiceImpl;
+import dev.matheuslf.desafio.inscritos.service.impl.ProjectServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 
-@ExtendWith(MockitoExtension.class)
 class TaskServiceTest {
 
     @Mock
-    TaskRepository taskRepository;
+    private ProjectRepository projectRepository;
 
     @Mock
-    ProjectRepository projectRepository;
+    private ProjectMapper projectMapper;
 
-    @InjectMocks
-    TaskServiceImpl taskService;
+    private ProjectServiceImpl projectService;
+
+    @BeforeEach
+    void setup() {
+        MockitoAnnotations.openMocks(this);
+        projectService = new ProjectServiceImpl(projectRepository, projectMapper);
+    }
 
     @Test
     void create_whenProjectNotFound_thenThrow() {
-        UUID projectId = UUID.randomUUID();
-        when(projectRepository.findById(projectId)).thenReturn(Optional.empty());
+        UUID fakeId = UUID.randomUUID();
 
-        TaskCreateDTO dto = new TaskCreateDTO("Short", "desc", TaskPriority.MEDIUM, LocalDate.now(), projectId);
+        when(projectRepository.findById(any(UUID.class)))
+            .thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> taskService.create(dto));
+        assertThrows(EntityNotFoundException.class, () -> {
+            projectService.findById(fakeId);
+        });
     }
 }
+

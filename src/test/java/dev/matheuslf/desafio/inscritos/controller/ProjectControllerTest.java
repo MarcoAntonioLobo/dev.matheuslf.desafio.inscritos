@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import dev.matheuslf.desafio.inscritos.dto.ProjectDTO;
+import dev.matheuslf.desafio.inscritos.dto.TaskDTO;
 import dev.matheuslf.desafio.inscritos.service.ProjectService;
 
 @WebMvcTest(ProjectController.class)
@@ -27,13 +29,25 @@ class ProjectControllerTest {
     @Autowired
     MockMvc mvc;
 
-	@SuppressWarnings("removal")
+    @SuppressWarnings("removal")
 	@MockBean
     ProjectService projectService;
 
     @Test
     void list_returnsOk() throws Exception {
-        Page<ProjectDTO> page = new PageImpl<>(java.util.List.of(new ProjectDTO(UUID.randomUUID(), "P", "d", LocalDate.now(), null)));
+        List<TaskDTO> tasks = List.of();
+
+        ProjectDTO projectDTO = new ProjectDTO(
+            UUID.randomUUID(),
+            "P",
+            "d",
+            LocalDate.now(),
+            null,
+            tasks
+        );
+
+        Page<ProjectDTO> page = new PageImpl<>(List.of(projectDTO));
+
         Mockito.when(projectService.findAll(any(Pageable.class))).thenReturn(page);
 
         mvc.perform(get("/projects")
