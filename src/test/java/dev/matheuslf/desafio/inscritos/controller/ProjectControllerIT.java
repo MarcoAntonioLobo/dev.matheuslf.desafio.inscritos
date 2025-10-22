@@ -21,7 +21,6 @@ class ProjectControllerIT {
 
     @BeforeEach
     void setup() {
-
         RestAssured.baseURI = "http://localhost";
         RestAssured.port = port;
     }
@@ -38,6 +37,7 @@ class ProjectControllerIT {
         """;
 
         given()
+            .auth().basic("admin", "123") // Basic Auth
             .contentType(ContentType.JSON)
             .body(payload)
         .when()

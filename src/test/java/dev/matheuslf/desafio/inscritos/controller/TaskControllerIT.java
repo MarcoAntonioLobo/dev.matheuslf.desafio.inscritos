@@ -28,7 +28,6 @@ class TaskControllerIT {
 
     @BeforeEach
     void setUp() {
-
         RestAssured.port = port;
 
         String projectPayload = """
@@ -42,6 +41,7 @@ class TaskControllerIT {
 
         projectId = UUID.fromString(
             RestAssured.given()
+                .auth().basic("admin", "123")
                 .contentType(ContentType.JSON)
                 .body(projectPayload)
             .when()
@@ -65,12 +65,13 @@ class TaskControllerIT {
         );
 
         RestAssured.given()
+                .auth().basic("admin", "123")
                 .contentType(ContentType.JSON)
                 .body(dto)
         .when()
                 .post("/tasks")
         .then()
-                .statusCode(201) // Created
+                .statusCode(201)
                 .body("title", equalTo("Nova Tarefa"))
                 .body("description", equalTo("Descrição da tarefa"))
                 .body("priority", equalTo("HIGH"))
@@ -80,6 +81,7 @@ class TaskControllerIT {
     @Test
     void getTasks_shouldReturnList() {
         RestAssured.given()
+                .auth().basic("admin", "123")
                 .accept(ContentType.JSON)
         .when()
                 .get("/tasks")
