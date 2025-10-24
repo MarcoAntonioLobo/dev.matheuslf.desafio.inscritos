@@ -16,6 +16,7 @@ RESTful API em **Java 17 + Spring Boot 3** para gerenciar projetos e tarefas (de
 - Documentação da API com **Swagger/OpenAPI**
 - Containerização com **Docker / docker-compose**
 - MapStruct para mapeamento entre DTOs e Entities, garantindo código limpo e testável
+- **Lombok** para reduzir boilerplate em **entities, DTOs e mappers** (`@Getter`, `@Setter`, `@Builder`, `@NoArgsConstructor`, `@AllArgsConstructor`)
 
 ---
 
@@ -29,6 +30,7 @@ RESTful API em **Java 17 + Spring Boot 3** para gerenciar projetos e tarefas (de
 - **Docker / docker-compose**
 - **Springdoc OpenAPI (Swagger UI)**
 - **MapStruct** (DTO <-> Entity mapping)
+- **Lombok** (redução de boilerplate em classes Java)
 - **Rest Assured** (Integration testing of REST endpoints)
 - **Spring Security** (Basic Auth)
 
@@ -141,6 +143,7 @@ Testes individuais (exemplo: TaskServiceTest):
 
 > 🔐 **Nos testes de integração, Basic Auth é incluído nas requisições** (`httpBasic()` para MockMvc e `.auth().basic()` para Rest Assured).  
 Testes incluem validação de mapeamentos do MapStruct entre DTOs e Entities, além de testes de integração de endpoints com Rest Assured.
+Lombok garante que getters, setters e builders funcionem corretamente nos DTOs e Entities.
 
 ---
 
@@ -148,7 +151,8 @@ Testes incluem validação de mapeamentos do MapStruct entre DTOs e Entities, al
 
 - Logs SQL podem ser habilitados em `application.yml` (já mostrado acima).  
 - Para usar PostgreSQL local sem Docker, configure `spring.datasource.*` no `application.yml`.  
-- MapStruct já está configurado como componentModel = "spring" permitindo injeção de dependência direta nos serviços.  
+- **MapStruct** já está configurado como componentModel = "spring" permitindo injeção de dependência direta nos serviços. 
+- **Lombok** já está integrado para reduzir boilerplate nas classes. 
 - Spring Security já está configurado para **Basic Auth** nos endpoints.
 
 ---
