@@ -1,9 +1,11 @@
 package dev.matheuslf.desafio.inscritos.controller;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,16 +22,21 @@ import jakarta.validation.Valid;
 public class ProjectController {
 
     private final ProjectService service;
-    public ProjectController(ProjectService service) { this.service = service; }
+
+    public ProjectController(ProjectService service) {
+        this.service = service;
+    }
 
     @PostMapping
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ProjectDTO> create(@Valid @RequestBody ProjectCreateDTO dto) {
         ProjectDTO created = service.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProjectDTO>> list(Pageable pageable) {
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Page<ProjectDTO>> list(@ParameterObject Pageable pageable) {
         return ResponseEntity.ok(service.findAll(pageable));
     }
 }

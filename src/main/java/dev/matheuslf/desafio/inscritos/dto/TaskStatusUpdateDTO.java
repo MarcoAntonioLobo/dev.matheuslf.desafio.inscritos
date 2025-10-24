@@ -1,5 +1,13 @@
 package dev.matheuslf.desafio.inscritos.dto;
 
-import dev.matheuslf.desafio.inscritos.entity.TaskStatus;
+import dev.matheuslf.desafio.inscritos.enums.TaskStatus;
+import lombok.*;
 
-public record TaskStatusUpdateDTO(TaskStatus status) {}
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class TaskStatusUpdateDTO {
+    private TaskStatus status;
+}

@@ -2,10 +2,12 @@ package dev.matheuslf.desafio.inscritos.controller;
 
 import java.util.UUID;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,17 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.matheuslf.desafio.inscritos.dto.TaskCreateDTO;
 import dev.matheuslf.desafio.inscritos.dto.TaskDTO;
 import dev.matheuslf.desafio.inscritos.dto.TaskStatusUpdateDTO;
-import dev.matheuslf.desafio.inscritos.entity.TaskPriority;
-import dev.matheuslf.desafio.inscritos.entity.TaskStatus;
+import dev.matheuslf.desafio.inscritos.enums.TaskPriority;
+import dev.matheuslf.desafio.inscritos.enums.TaskStatus;
 import dev.matheuslf.desafio.inscritos.service.TaskService;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/tasks")
+@PreAuthorize("isAuthenticated()")
 public class TaskController {
 
     private final TaskService service;
-    public TaskController(TaskService service) { this.service = service; }
+
+    public TaskController(TaskService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public ResponseEntity<TaskDTO> create(@Valid @RequestBody TaskCreateDTO dto) {
@@ -42,14 +48,16 @@ public class TaskController {
             @RequestParam(required = false) TaskStatus status,
             @RequestParam(required = false) TaskPriority priority,
             @RequestParam(required = false) UUID projectId,
-            Pageable pageable
+            @ParameterObject Pageable pageable
     ) {
         return ResponseEntity.ok(service.search(status, priority, projectId, pageable));
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<TaskDTO> updateStatus(@PathVariable UUID id, @Valid @RequestBody TaskStatusUpdateDTO body) {
-        return ResponseEntity.ok(service.updateStatus(id, body.status()));
+    public ResponseEntity<TaskDTO> updateStatus(@PathVariable UUID id,
+                                                @Valid @RequestBody TaskStatusUpdateDTO body) {
+        TaskDTO updated = service.updateStatus(id, body.getStatus());
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")

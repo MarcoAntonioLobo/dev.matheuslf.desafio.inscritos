@@ -13,7 +13,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
 import dev.matheuslf.desafio.inscritos.dto.TaskCreateDTO;
-import dev.matheuslf.desafio.inscritos.entity.TaskPriority;
+import dev.matheuslf.desafio.inscritos.enums.TaskPriority;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 

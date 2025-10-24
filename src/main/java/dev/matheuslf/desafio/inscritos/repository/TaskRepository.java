@@ -10,8 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import dev.matheuslf.desafio.inscritos.entity.Task;
-import dev.matheuslf.desafio.inscritos.entity.TaskPriority;
-import dev.matheuslf.desafio.inscritos.entity.TaskStatus;
+import dev.matheuslf.desafio.inscritos.enums.TaskPriority;
+import dev.matheuslf.desafio.inscritos.enums.TaskStatus;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, UUID> {

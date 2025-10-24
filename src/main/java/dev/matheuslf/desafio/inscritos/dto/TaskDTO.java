@@ -3,10 +3,21 @@ package dev.matheuslf.desafio.inscritos.dto;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import dev.matheuslf.desafio.inscritos.entity.TaskPriority;
-import dev.matheuslf.desafio.inscritos.entity.TaskStatus;
+import dev.matheuslf.desafio.inscritos.enums.TaskPriority;
+import dev.matheuslf.desafio.inscritos.enums.TaskStatus;
+import lombok.*;
 
-public record TaskDTO(UUID id, String title, String description, TaskStatus status, TaskPriority priority,
-		LocalDate dueDate, UUID projectId) {
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class TaskDTO {
+    private UUID id;
+    private String title;
+    private String description;
+    private TaskStatus status;
+    private TaskPriority priority;
+    private LocalDate dueDate;
+    private UUID projectId;
 }

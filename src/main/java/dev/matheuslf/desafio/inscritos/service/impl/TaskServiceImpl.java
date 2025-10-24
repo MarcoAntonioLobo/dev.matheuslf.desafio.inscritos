@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import dev.matheuslf.desafio.inscritos.dto.TaskCreateDTO;
 import dev.matheuslf.desafio.inscritos.dto.TaskDTO;
 import dev.matheuslf.desafio.inscritos.entity.Task;
-import dev.matheuslf.desafio.inscritos.entity.TaskPriority;
-import dev.matheuslf.desafio.inscritos.entity.TaskStatus;
+import dev.matheuslf.desafio.inscritos.enums.TaskPriority;
+import dev.matheuslf.desafio.inscritos.enums.TaskStatus;
 import dev.matheuslf.desafio.inscritos.mapper.TaskMapper;
 import dev.matheuslf.desafio.inscritos.repository.TaskRepository;
 import dev.matheuslf.desafio.inscritos.service.TaskService;
@@ -25,7 +25,6 @@ public class TaskServiceImpl implements TaskService {
         this.taskRepository = taskRepository;
         this.taskMapper = taskMapper;
     }
-
 
     @Override
     public TaskDTO create(TaskCreateDTO dto) {
@@ -53,4 +52,11 @@ public class TaskServiceImpl implements TaskService {
     public void delete(UUID taskId) {
         taskRepository.deleteById(taskId);
     }
+    
+    @Override
+    public Page<TaskDTO> findAll(Pageable pageable) {
+        return taskRepository.findAll(pageable)
+                .map(taskMapper::toDTO);
+    }
 }
+
