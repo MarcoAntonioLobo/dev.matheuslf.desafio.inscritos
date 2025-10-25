@@ -1,5 +1,7 @@
 package dev.matheuslf.desafio.inscritos.service;
 
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,4 +12,5 @@ public interface ProjectService {
     ProjectDTO create(ProjectCreateDTO dto);
     Page<ProjectDTO> findAll(Pageable pageable);
     ProjectDTO findById(java.util.UUID id);
+	void delete(UUID id);
 }

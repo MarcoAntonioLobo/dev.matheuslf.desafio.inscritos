@@ -1,4 +1,4 @@
-package dev.matheuslf.desafio.inscritos.service;
+ package dev.matheuslf.desafio.inscritos.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +31,7 @@ class TaskServiceTest {
     void setup() {
         MockitoAnnotations.openMocks(this);
         projectService = new ProjectServiceImpl(projectRepository, projectMapper);
-    }
+    }   
 
     @Test
     void create_whenProjectNotFound_thenThrow() {

@@ -25,20 +25,30 @@ public class ProjectServiceImpl implements ProjectService {
         this.projectMapper = projectMapper;
     }
 
+    @Override
     public ProjectDTO create(ProjectCreateDTO dto) {
         Project project = projectMapper.toEntity(dto);
         projectRepository.save(project);
         return projectMapper.toDTO(project);
     }
 
+    @Override
     public Page<ProjectDTO> findAll(Pageable pageable) {
         return projectRepository.findAll(pageable)
                 .map(projectMapper::toDTO);
     }
 
+    @Override
     public ProjectDTO findById(UUID id) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Projeto não encontrado"));
         return projectMapper.toDTO(project);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Projeto não encontrado"));
+        projectRepository.delete(project);
     }
 }

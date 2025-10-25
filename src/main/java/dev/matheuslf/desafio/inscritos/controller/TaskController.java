@@ -24,6 +24,8 @@ import dev.matheuslf.desafio.inscritos.dto.TaskStatusUpdateDTO;
 import dev.matheuslf.desafio.inscritos.enums.TaskPriority;
 import dev.matheuslf.desafio.inscritos.enums.TaskStatus;
 import dev.matheuslf.desafio.inscritos.service.TaskService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -38,6 +40,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @ApiResponse(responseCode = "201", description = "Created")
     public ResponseEntity<TaskDTO> create(@Valid @RequestBody TaskCreateDTO dto) {
         TaskDTO created = service.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -61,6 +64,13 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(
+        summary = "Deleta uma tarefa",
+        responses = {
+            @ApiResponse(responseCode = "204", description = "No Content"),
+            @ApiResponse(responseCode = "404", description = "Tarefa não encontrada")
+        }
+    )
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
